@@ -13,7 +13,7 @@ import { ComponentsModule } from './components/components.module';
     ComponentsModule
   ],
   exports: [
-    LayoutModule
+
   ]
 })
 export class AdminModule { }
