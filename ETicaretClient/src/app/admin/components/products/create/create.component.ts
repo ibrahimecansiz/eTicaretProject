@@ -16,7 +16,7 @@ export class CreateComponent extends BaseComponent implements OnInit{
     super(spinner);
   }
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+
   }
 
   create(name:HTMLInputElement, stock:HTMLInputElement, price:HTMLInputElement){
@@ -26,13 +26,20 @@ export class CreateComponent extends BaseComponent implements OnInit{
     createProduct.price = parseInt(price.value);
     createProduct.stock = parseFloat(stock.value);
 
-    this.productService.create(createProduct, () =>
+    this.productService.create(createProduct, () => {
       this.hideSpinner(SpinnerType.BallAtom);
-      this.alertify.message("Ürün başarıyla eklenmiştir",{
-        dismissOthers : true,
-        messageType : MessageType.Success,
-        position : Position.BottomRight
-      })
-    )
+      this.alertify.message("Ürün Başarıyla Eklenmiştir", {
+        dismissOthers: true,
+        messageType: MessageType.Success,
+        position: Position.BottomRight
+      });
+    }, errorMessage => {
+      this.alertify.message(errorMessage,{
+        dismissOthers: true,
+        messageType: MessageType.Error,
+        position: Position.TopRight
+      });
+
+    });
   }
 }
