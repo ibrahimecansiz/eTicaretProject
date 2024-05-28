@@ -28,7 +28,7 @@ namespace ETicaretAPI.Infrastructure.Services.Storage.Local
             return directory.GetFiles().Select(f => f.Name).ToList();
         }
 
-        public bool HasFile(string path, string fileName)
+        public new bool HasFile(string path, string fileName)
             => File.Exists($"{path}\\{fileName}");
 
         public async Task<List<(string fileName, string pathOrContainer)>> UploadAsync(string path, IFormFileCollection files)
