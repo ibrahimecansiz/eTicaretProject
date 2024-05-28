@@ -38,7 +38,7 @@ namespace ETicaretAPI.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] Pagination pagination)
+        public IActionResult Get([FromQuery] Pagination pagination)
         {
             var totalCount = _productReadRepository.GetAll().Count();
             var products = _productReadRepository.GetAll(false).Select(p => new
@@ -53,9 +53,10 @@ namespace ETicaretAPI.API.Controllers
 
             return Ok(new
             {
-                totalCount, products
+                totalCount,
+                products
             });
-        } 
+        }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
@@ -104,7 +105,7 @@ namespace ETicaretAPI.API.Controllers
         {
             //wwwroot/resourse/product-images
 
-            var datas = await _storageService.UploadAsync("resource/files", Request.Form.Files);
+            var datas = await _storageService.UploadAsync("files", Request.Form.Files);
 
             //var datas = await _fileService.UploadAsync("resources/product-images", Request.Form.Files);
             await _productImageFileWriteRepository.AddRangeAsync(datas.Select(d => new ProductImageFile()

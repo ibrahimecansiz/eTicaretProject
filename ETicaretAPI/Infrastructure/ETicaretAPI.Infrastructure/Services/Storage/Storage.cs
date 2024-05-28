@@ -1,23 +1,17 @@
 ﻿using ETicaretAPI.Infrastructure.Operations;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ETicaretAPI.Infrastructure.Services
+namespace ETicaretAPI.Infrastructure.Services.Storage
 {
-    public class FileService
+    public class Storage
     {
-        private readonly IWebHostEnvironment _webHostEnvironment;
+        protected delegate bool HasFile(string pathOrContainerName, string fileName);
 
-        public FileService(IWebHostEnvironment webHostEnvironment)
-        {
-            _webHostEnvironment = webHostEnvironment;
-        }
-        async Task<string> FileRenameAsync(string path, string fileName, bool first = true)
+        protected async Task<string> FileRenameAsync(string pathOrContainerName, string fileName,HasFile hasFileMethod, bool first = true)
         {
             string newFileName = await Task.Run<string>(async () =>
             {
@@ -41,33 +35,36 @@ namespace ETicaretAPI.Infrastructure.Services
                         {
                             lastIndex = indexNo1;
                             indexNo1 = newFileName.IndexOf('-');
-                            if(indexNo1 == -1)
+                            if (indexNo1 == -1)
                             {
                                 indexNo1 = lastIndex;
                                 break;
                             }
                         }
                         int indexNo2 = newFileName.LastIndexOf(".");
-                        string fileNo = newFileName.Substring(indexNo1, indexNo2-indexNo1 - 1);
-                        if(int.TryParse(fileNo, out int _fileNo))
+                        string fileNo = newFileName.Substring(indexNo1, indexNo2 - indexNo1 - 1);
+                        if (int.TryParse(fileNo, out int _fileNo))
                         {
                             _fileNo++;
                             newFileName = newFileName.Remove(indexNo1, indexNo2 - indexNo1 - 1)
                                                     .Insert(indexNo1, fileNo.ToString());
-                        }else
+                        }
+                        else
                             newFileName = $"{Path.GetFileNameWithoutExtension(fileName)}-2{extension}";
 
                     }
                 }
-                if (File.Exists($"{path}\\{newFileName}"))
-                    return await FileRenameAsync(path, newFileName,false);
+                //if (File.Exists($"{path}\\{newFileName}"))
+                if(hasFileMethod(pathOrContainerName, newFileName))
+                    return await FileRenameAsync(pathOrContainerName, newFileName, hasFileMethod, false);
                 else
                     return newFileName;
             });
 
             return newFileName;
 
-            
+
         }
+
     }
 }
