@@ -34,7 +34,7 @@ namespace ETicaretAPI.Infrastructure.Services.Storage.Azure
             return _blobContainerClient.GetBlobs().Select(x => x.Name).ToList();
         }
 
-        public bool HasFile(string containerName, string fileName)
+        public new bool HasFile(string containerName, string fileName)
         {
             _blobContainerClient = _blobServiceClient.GetBlobContainerClient(containerName);
             return _blobContainerClient.GetBlobs().Any(x => x.Name == fileName);
