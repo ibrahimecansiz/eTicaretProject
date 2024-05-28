@@ -14,6 +14,12 @@ export class CustomToastrService {
     },messageType)
   }
 
+  message(message: string, title: string, toastrOptions: ToastrOptions) {
+    this.toastr.show(message, title, {
+      positionClass: toastrOptions.position,
+    }, toastrOptions.messageType)
+  }
+
 }
 
 export class ToastrOptions {
