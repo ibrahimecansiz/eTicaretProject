@@ -30,25 +30,30 @@
       <td mat-cell *matCellDef="let element">{{ element.updatedDate }}</td>
     </ng-container>
 
+    <!-- Photos Column -->
+    <ng-container matColumnDef="photos">
+      <th mat-header-cell *matHeaderCellDef width="30"></th>
+      <td mat-cell *matCellDef="let element">
+        <img style="cursor:pointer" (click)="addProductImages(element.id)" src="assets/photos.png" width="25">
+      </td>
+    </ng-container>
     <!-- Edit Column -->
     <ng-container matColumnDef="edit">
       <th mat-header-cell *matHeaderCellDef width="30"></th>
       <td mat-cell *matCellDef="let element">
-        <!-- <img src="../../../../../assets/edit.png" width="25"> -->
+         <img style="cursor:pointer" src="assets/edit.png" width="25"> 
       </td>
     </ng-container>
     <!-- Delete Column -->
     <ng-container matColumnDef="delete">
       <th mat-header-cell *matHeaderCellDef width="30"></th>
-      <td
-        mat-cell
-        *matCellDef="let element"
-        appDelete
-        [id]="element.id"
-        (callback)="getProducts()"
-        controller="products"
-      >
-        <!-- <img src="../../../../../assets/delete.png" width="25" (click)="delete(element.id)"> -->
+      <td mat-cell
+          *matCellDef="let element"
+          appDelete
+          [id]="element.id"
+          (callback)="getProducts()"
+          controller="products">
+         <!--<img src="../../../../../assets/delete.png" width="25" (click)="delete(element.id)">--> 
       </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

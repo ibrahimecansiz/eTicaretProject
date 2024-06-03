@@ -35,7 +35,7 @@ namespace ETicaretAPI.Infrastructure.Services.Storage
                         {
                             lastIndex = indexNo1;
                             indexNo1 = newFileName.IndexOf('-');
-                            if (indexNo1 == -1)
+                            if (indexNo1 != -1)
                             {
                                 indexNo1 = lastIndex;
                                 break;

@@ -23,6 +23,7 @@ namespace ETicaretAPI.Infrastructure.Operations
                 .Replace("?", "")
                 .Replace("_", "")
                 .Replace("-", "")
+                .Replace(" ", "-")
                 .Replace("@", "")
                 .Replace("~", "")
                 .Replace("#", "")
