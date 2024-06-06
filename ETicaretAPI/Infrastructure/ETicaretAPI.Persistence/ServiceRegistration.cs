@@ -1,5 +1,6 @@
 ﻿using ETicaretAPI.Application;
 using ETicaretAPI.Application.Repositories;
+using ETicaretAPI.Domain.Entities.Identity;
 using ETicaretAPI.Persistence.Concretes;
 using ETicaretAPI.Persistence.Repositories;
 using ETicaretAPI.Persistence.Repositories.File;
@@ -18,6 +19,14 @@ namespace ETicaretAPI.Persistence
         public static void AddPersistanceServices(this IServiceCollection services)
         {
             services.AddDbContext<ETicaretAPIDbContext>(opt => opt.UseNpgsql(Configuration.ConnectionString));
+            services.AddIdentity<AppUser, AppRole>(options => 
+            { 
+                options.Password.RequiredLength = 3;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+            }).AddEntityFrameworkStores<ETicaretAPIDbContext>();
 
             services.AddScoped<ICustomerReadRepository, CustomerReadRepository>();
             services.AddScoped<ICustomerWriteRepository, CustomerWriteRepository>();
