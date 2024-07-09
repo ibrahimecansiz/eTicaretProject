@@ -33,6 +33,7 @@ namespace ETicaretAPI.Application.Features.Commands.AppUsers
             IdentityResult result = await _userManager.CreateAsync(new()
             {
                 Id = Guid.NewGuid().ToString(),
+                NameSurname = request.Name,
                 UserName = request.Username,
                 Email = request.Email
 
